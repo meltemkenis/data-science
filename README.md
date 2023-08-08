@@ -1,6 +1,6 @@
-## Sentiment Analysis of Global Warming Using Twitter" Project
+# Sentiment Analysis of Global Warming Using Twitter" Project
 
-# Introduction
+## Introduction
 
 This project aims to perform sentiment analysis on tweets related to global warming using Twitter data. It retrieves tweets with the hashtag "#globalwarming" and analyzes their sentiment to determine whether they are positive, negative, or neutral.
 
@@ -16,23 +16,23 @@ To run the code in this project, you will need the following libraries installed
 - matplotlib
 - wordcloud
 
-# Data Retrieval from Twitter
+## Data Retrieval from Twitter
 
 The code connects to the Twitter API using the provided consumer key, consumer secret, access token, and access token secret. It searches for tweets with the hashtag "#globalwarming" in English language and retrieves up to 1000 results.
 
-# Text Mining
+## Text Mining
 
 After retrieving the tweets, the code performs text preprocessing to prepare the text for sentiment analysis. The text is converted to lowercase, numbers, punctuations, and 'rt' (re-tweet) expressions are removed, and stopwords (common words like "I," "me," "myself," "he," "she," etc.) are removed using NLTK's stopwords.
 
-# Creating Word Cloud
+## Creating Word Cloud
 
 The code generates a word cloud visualization based on the processed text. The word cloud displays the most frequent words in the tweets related to global warming.
 
-# Sentiment Analysis
+## Sentiment Analysis
 
 Sentiment analysis is performed on each tweet using TextBlob. The sentiment score of each tweet is calculated as polarity, indicating whether it is positive, negative, or neutral.
 
-# Files
+## Files
 
 After running this code with the correct credentials, please expect to see following files: 
 
@@ -40,7 +40,7 @@ After running this code with the correct credentials, please expect to see follo
 
 - sentiment_global_warming.csv: CSV file containing the sentiment analysis results (tweet text, sentiment score, sentiment class - positive, negative, or neutral).
 
-# Running the Code
+## Running the Code
 
 Before running the code, make sure to replace the 'XXX' placeholders in the code with your actual Twitter API key, consumer secret, access token, and access token secret.
 
