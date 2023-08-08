@@ -1,4 +1,4 @@
-# Sentiment Analysis of Global Warming Using Twitter" Project
+# "Sentiment Analysis of Global Warming Using Twitter" Project
 
 ## Introduction
 
