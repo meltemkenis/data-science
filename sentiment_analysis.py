@@ -2,14 +2,22 @@
 # August 2019 - "Python and Machine Learning" project
 # Sentiment Analysis of Global Warming Using Twitter
 
-## Data retrieval from Twitter:
-
 from warnings import filterwarnings
+import pandas as pd
+import tweepy, codecs
+import nltk
+from nltk.corpus import stopwords
+from textblob import Word
+import numpy as np
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+from textblob import TextBlob
+
 filterwarnings('ignore')
 
-# Key and tokens which are necessary to enter Twitter API:
+## Data retrieval from Twitter:
 
-import tweepy, codecs
+# Key and tokens which are necessary to enter Twitter API:
 
 consumer_key = 'XXX'
 consumer_secret = 'XXX'
@@ -22,13 +30,9 @@ api = tweepy.API(auth)
 
 
 # We specify the features of the data that we will extract from Twitter:
-
 tweetler = api.search(q = "#globalwarming", lang = "en", result_type = "mix", count = 1000)
 
-
 #  We specify the features of the tweets with globalwarming hashtag:
-
-import pandas as pd
 
 def hashtag_df(tweetler):
     id_list = [tweet.id for tweet in tweetler]
@@ -49,13 +53,10 @@ def hashtag_df(tweetler):
 # Converting tweets with globalwarming hashtag to a dataframe:
 df = hashtag_df(tweetler)
 
-
 # Saving dataframe as csv file.
 df.to_csv("data_twitter.csv")
 
-
 ## Text Mining:
-
 
 # Case conversion:
 df['text'] = df['text'].apply(lambda x: " ".join(x.lower() for x in x.split()))
@@ -66,16 +67,13 @@ df['text'] = df['text'].str.replace('rt','')
 df['text'] = df['text'].str.replace('\d','')
 
 # Removing stopwords (I, me, myself, he, she, they, our, mine, you, yours):
-import nltk
 nltk.download('stopwords')
-from nltk.corpus import stopwords
 sw = stopwords.words('english')
 df['text'] = df['text'].apply(lambda x: " ".join(x for x in x.split() if x not in sw))
 
 get_ipython().system('pip install textblob')
 
 # Lemmi
-from textblob import Word
 nltk.download('wordnet')
 df['text'] = df['text'].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()])) 
 
@@ -83,13 +81,6 @@ df['text'] = df['text'].apply(lambda x: " ".join([Word(word).lemmatize() for wor
 ## Creating Word Cloud:
 
 get_ipython().system('pip install WordCloud')
-
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
-
 
 text = " ".join(i for i in df.text)
 
@@ -102,7 +93,6 @@ plt.show()
 
 ## Sentiment Analysis:
 
-from textblob import TextBlob
 def sentiment_skorla(df):
 
     text = df["text"]
