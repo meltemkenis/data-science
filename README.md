@@ -32,6 +32,14 @@ The code generates a word cloud visualization based on the processed text. The w
 
 Sentiment analysis is performed on each tweet using TextBlob. The sentiment score of each tweet is calculated as polarity, indicating whether it is positive, negative, or neutral.
 
+# Files
+
+After running this code with the correct credentials, please expect to see following files: 
+
+- data_twitter.csv: CSV file containing the extracted Twitter data (tweet ID, text, created_at, retweeted, retweet_count, user_screen_name, user_followers_count, user_location, hashtags).
+
+- sentiment_global_warming.csv: CSV file containing the sentiment analysis results (tweet text, sentiment score, sentiment class - positive, negative, or neutral).
+
 # Running the Code
 
 Before running the code, make sure to replace the 'XXX' placeholders in the code with your actual Twitter API key, consumer secret, access token, and access token secret.

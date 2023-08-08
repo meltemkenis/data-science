@@ -30,28 +30,33 @@ api = tweepy.API(auth)
 
 
 # We specify the features of the data that we will extract from Twitter:
-tweetler = api.search(q = "#globalwarming", lang = "en", result_type = "mix", count = 1000)
+tweets = api.search(
+            q = "#globalwarming",
+            lang = "en",
+            result_type = "mix",
+            count = 1000,
+        )
 
 #  We specify the features of the tweets with globalwarming hashtag:
 
-def hashtag_df(tweetler):
-    id_list = [tweet.id for tweet in tweetler]
+def hashtag_df(tweets):
+    id_list = [tweet.id for tweet in tweets]
     df = pd.DataFrame(id_list, columns = ["id"])
     
-    df["text"] = [tweet.text for tweet in tweetler]
-    df["created_at"] = [tweet.created_at for tweet in tweetler]
-    df["retweeted"] = [tweet.retweeted for tweet in tweetler]
-    df["retweet_count"] = [tweet.retweet_count for tweet in tweetler]
-    df["user_screen_name"] = [tweet.author.screen_name for tweet in tweetler]
-    df["user_followers_count"] = [tweet.author.followers_count for tweet in tweetler]
-    df["user_location"] = [tweet.author.location for tweet in tweetler]
-    df["Hashtags"] = [tweet.entities.get('hashtags') for tweet in tweetler]
+    df["text"] = [tweet.text for tweet in tweets]
+    df["created_at"] = [tweet.created_at for tweet in tweets]
+    df["retweeted"] = [tweet.retweeted for tweet in tweets]
+    df["retweet_count"] = [tweet.retweet_count for tweet in tweets]
+    df["user_screen_name"] = [tweet.author.screen_name for tweet in tweets]
+    df["user_followers_count"] = [tweet.author.followers_count for tweet in tweets]
+    df["user_location"] = [tweet.author.location for tweet in tweets]
+    df["Hashtags"] = [tweet.entities.get('hashtags') for tweet in tweets]
     
     return df
 
 
 # Converting tweets with globalwarming hashtag to a dataframe:
-df = hashtag_df(tweetler)
+df = hashtag_df(tweets)
 
 # Saving dataframe as csv file.
 df.to_csv("data_twitter.csv")
@@ -93,33 +98,33 @@ plt.show()
 
 ## Sentiment Analysis:
 
-def sentiment_skorla(df):
+def calculate_sentiment_score(df):
 
     text = df["text"]
 
     for i in range(0,len(text)):
         textB = TextBlob(text[i])
-        sentiment_skoru = textB.sentiment.polarity
-        df.set_value(i, 'sentiment_skoru', sentiment_skoru)
+        sentiment_score = textB.sentiment.polarity
+        df.set_value(i, 'sentiment_score', sentiment_score)
         
-        if sentiment_skoru <0.00:
-            duygu_sinifi = 'Negatif'
-            df.set_value(i, 'duygu_sinifi', duygu_sinifi )
+        if sentiment_score < 0.00:
+            emotion_class = 'Negative'
+            df.set_value(i, 'emotion_class', emotion_class)
 
-        elif sentiment_skoru >0.00:
-            duygu_sinifi = 'Pozitif'
-            df.set_value(i, 'duygu_sinifi', duygu_sinifi )
+        elif sentiment_score > 0.00:
+            emotion_class = 'Pozitive'
+            df.set_value(i, 'emotion_class', emotion_class)
 
         else:
-            duygu_sinifi = 'Notr'
-            df.set_value(i, 'duygu_sinifi', duygu_sinifi )
+            emotion_class = 'Neutral'
+            df.set_value(i, 'emotion_class', emotion_class)
             
     return df
 
-df = hashtag_df(tweetler)
-sgw = sentiment_skorla(df)
+df = hashtag_df(tweets)
+sgw = calculate_sentiment_score(df)
 
 sgw.to_csv("sentiment_global_warming.csv")
-df.groupby("duygu_sinifi").count()["id"]
-duygu_freq = df.groupby("duygu_sinifi").count()["id"]
-duygu_freq.plot.bar(x = "duygu_sinifi",y = "id");
+df.groupby("emotion_class").count()["id"]
+emotion_freq = df.groupby("emotion_class").count()["id"]
+emotion_freq.plot.bar(x = "emotion_class",y = "id");
